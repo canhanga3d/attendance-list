@@ -5,3 +5,23 @@
   margin: 0;
   padding: 0;
 }
+:root {
+  font-size: 62.5%;
+  --default-padding: 1.6rem;
+}
+body,
+input,
+button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+#root {
+  width: min(1120px, 90%);
+  margin: 0 auto;
+}
+@media (min-width:768px){
+  :root{
+    --default-padding: 2.4rem;
+  }
+}
