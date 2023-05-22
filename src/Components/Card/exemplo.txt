@@ -1,0 +1,55 @@
+import { useState, useEffect } from 'react';
+import { Card } from '../../Components/Card';
+import style from './style.module.scss';
+
+export function Home() {
+  const [studentName, setStudentName] = useState('');
+  const [students, setStudents] = useState(() => {
+    const savedStudents = localStorage.getItem('students');
+    if (savedStudents) {
+      return JSON.parse(savedStudents);
+    } else {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('students', JSON.stringify(students));
+  }, [students]);
+
+  function handleStudents(e) {
+    e.preventDefault();
+    const name = studentName;
+    const time = new Date().toLocaleTimeString('pt-AO', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    const newStudents = {
+      name,
+      time,
+    };
+    setStudents([...students, newStudents]);
+    e.target.reset();
+  }
+
+  return (
+    <main className={style.container}>
+      <h1>Lista de Presença</h1>
+      <form onSubmit={handleStudents}>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Digite o nome..."
+          onChange={(e) => setStudentName(e.target.value)}
+        />
+        <button type="submit">Adicionar</button>
+      </form>
+
+      {students.map(({ name, time }) => (
+        <Card name={name} time={time} key={time} />
+      ))}
+    </main>
+  );
+}
